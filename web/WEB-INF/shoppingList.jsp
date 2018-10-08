@@ -14,5 +14,7 @@
     </head>
     <body>
         <h1>Shopping List</h1>
+        Hello, ${username} 
+        <a href="?action=logout">Logout</a>
     </body>
 </html>
