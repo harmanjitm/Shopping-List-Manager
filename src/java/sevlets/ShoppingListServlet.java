@@ -32,18 +32,20 @@ public class ShoppingListServlet extends HttpServlet {
 
     public void doEverything(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String action = request.getParameter("action");
+        String action = null;
         HttpSession session = request.getSession();
         
         if(session.getAttribute("userName") == null && action == null)
         {
             request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
         }
-        else
+        else if(session.getAttribute("userName") != null)
         {
             request.setAttribute("username", session.getAttribute("userName"));
             request.getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
         }
+        
+        action = request.getParameter("action");
         
         if(action != null)
         {
@@ -52,6 +54,11 @@ public class ShoppingListServlet extends HttpServlet {
                 case "register":
                     String username = request.getParameter("userName");
                     session.setAttribute("userName", username);
+                    response.sendRedirect("ShoppingList");
+                    break;
+                case "logout":
+                    session.invalidate();
+                    action=null;
                     response.sendRedirect("ShoppingList");
                     break;
             }
